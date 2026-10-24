@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rick and Morty - Universo de Personagens</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Creepster&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <!-- ===== HEADER / NAVEGAÇÃO ===== -->
+    <header class="header">
+        <div class="header-container">
+            <a href="#" class="logo">
+                <span class="logo-icon">🛸</span>
+                <span class="logo-text">Rick & Morty</span>
+            </a>
+            <nav class="nav">
+                <a href="#home" class="nav-link">Início</a>
+                <a href="#personagens" class="nav-link">Personagens</a>
+                <a href="#sobre" class="nav-link">Sobre</a>
+            </nav>
+            <button class="menu-toggle" id="menuToggle" aria-label="Abrir menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </header>
+
+    <!-- ===== SEÇÃO HERO ===== -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h1 class="hero-title">Explore o Multiverso</h1>
+            <p class="hero-subtitle">
+                Descubra todos os personagens do universo de Rick and Morty. 
+                Dados carregados em tempo real diretamente da API oficial!
+            </p>
+            <a href="#personagens" class="hero-btn">Ver Personagens 👇</a>
+        </div>
+        <div class="hero-portal"></div>
+    </section>
+
+    <!-- ===== SEÇÃO PERSONAGENS ===== -->
+    <section class="personagens-section" id="personagens">
+        <div class="section-container">
+            <h2 class="section-title">🧬 Personagens do Multiverso</h2>
+            <p class="section-desc">
+                Os cards abaixo são gerados <strong>dinamicamente via JavaScript</strong> 
+                consumindo a <a href="https://rickandmortyapi.com/" target="_blank" rel="noopener">Rick and Morty API</a>.
+            </p>
+
+            <!-- Filtros e Busca -->
+            <div class="filtros-container">
+                <input 
+                    type="text" 
+                    id="searchInput" 
+                    class="search-input" 
+                    placeholder="🔍 Buscar personagem pelo nome..."
+                >
+                <select id="statusFilter" class="filter-select">
+                    <option value="">Todos os Status</option>
+                    <option value="Alive">🟢 Vivo</option>
+                    <option value="Dead">🔴 Morto</option>
+                    <option value="unknown">⚪ Desconhecido</option>
+                </select>
+                <select id="speciesFilter" class="filter-select">
+                    <option value="">Todas as Espécies</option>
+                    <option value="Human">Humano</option>
+                    <option value="Alien">Alien</option>
+                    <option value="Robot">Robô</option>
+                    <option value="Mythological Creature">Criatura Mitológica</option>
+                    <option value="Animal">Animal</option>
+                </select>
+            </div>
+
+            <!-- Área de Loading -->
+            <div id="loading" class="loading">
+                <div class="loading-portal"></div>
+                <p>Abrindo portal para o multiverso...</p>
+            </div>
+
+            <!-- Área de Erro -->
+            <div id="error" class="error-message" style="display: none;">
+                <p>⚠️ Ops! Algo deu errado ao buscar os personagens. Tente novamente.</p>
+                <button id="retryBtn" class="retry-btn">Tentar Novamente</button>
+            </div>
+
+            <!-- Container dos Cards (preenchido dinamicamente pelo JS) -->
+            <div id="cardsContainer" class="cards-grid"></div>
+
+            <!-- Paginação -->
+            <div id="pagination" class="pagination"></div>
+        </div>
+    </section>
+
+    <!-- ===== SEÇÃO SOBRE ===== -->
+    <section class="sobre-section" id="sobre">
+        <div class="section-container">
+            <h2 class="section-title">📺 Sobre Rick and Morty</h2>
+            <div class="sobre-content">
+                <div class="sobre-text">
+                    <p>
+                        <strong>Rick and Morty</strong> é uma série de animação americana de comédia e ficção científica 
+                        criada por <em>Justin Roiland</em> e <em>Dan Harmon</em> para o bloco de programação noturno 
+                        <strong>Adult Swim</strong> do canal Cartoon Network. A série estreou em 
+                        <strong>2 de dezembro de 2013</strong> e rapidamente se tornou um fenômeno cultural mundial.
+                    </p>
+                    <p>
+                        A história acompanha as aventuras interdimensionais do gênio cientista alcoólatra 
+                        <strong>Rick Sanchez</strong> e seu ingênuo neto <strong>Morty Smith</strong>, 
+                        que dividem seu tempo entre a vida doméstica e viagens por diferentes dimensões e planetas.
+                    </p>
+                    <h3>🌀 Sobre a API</h3>
+                    <p>
+                        A <a href="https://rickandmortyapi.com/" target="_blank" rel="noopener">Rick and Morty API</a> 
+                        é uma API REST gratuita e de código aberto que fornece dados sobre personagens, localizações 
+                        e episódios do universo da série. Não é necessário nenhum token ou autenticação para utilizá-la, 
+                        bastando fazer requisições HTTP diretamente aos endpoints disponíveis.
+                    </p>
+                    <h3>📡 Dados Disponíveis</h3>
+                    <ul>
+                        <li><strong>826+</strong> personagens cadastrados</li>
+                        <li><strong>126</strong> localizações diferentes</li>
+                        <li><strong>51</strong> episódios documentados</li>
+                        <li>Informações sobre status, espécie, gênero e origem dos personagens</li>
+                    </ul>
+                </div>
+                <div class="sobre-stats">
+                    <div class="stat-card">
+                        <span class="stat-number" id="totalChars">--</span>
+                        <span class="stat-label">Personagens</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-number">126</span>
+                        <span class="stat-label">Localizações</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-number">51</span>
+                        <span class="stat-label">Episódios</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-number">∞</span>
+                        <span class="stat-label">Dimensões</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="footer">
+        <div class="footer-container">
+            <p>
+                Projeto acadêmico — Desenvolvimento Web Front-End
+            </p>
+            <p>
+                Dados fornecidos pela 
+                <a href="https://rickandmortyapi.com/" target="_blank" rel="noopener">Rick and Morty API</a>
+            </p>
+            <p class="footer-copy">&copy; 2026 — Todos os direitos reservados</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

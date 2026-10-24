@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Relatório Teórico - Projeto Rick and Morty</title>
+    <style>
+        @page {
+            size: A4;
+            margin: 20mm;
+        }
+        body {
+            font-family: "Segoe UI", Arial, sans-serif;
+            line-height: 1.5;
+            color: #222;
+            background: #fff;
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        h1 {
+            font-size: 1.6rem;
+            color: #0b3b32;
+            border-bottom: 2px solid #00d4aa;
+            padding-bottom: 8px;
+            margin-bottom: 6px;
+        }
+        .header-meta {
+            font-size: 0.9rem;
+            color: #555;
+            margin-bottom: 24px;
+        }
+        h2 {
+            font-size: 1.2rem;
+            color: #1a443b;
+            margin-top: 20px;
+            margin-bottom: 8px;
+            border-left: 4px solid #00d4aa;
+            padding-left: 8px;
+        }
+        h3 {
+            font-size: 1rem;
+            color: #333;
+            margin-top: 12px;
+            margin-bottom: 4px;
+        }
+        p {
+            font-size: 0.92rem;
+            margin-bottom: 10px;
+            text-align: justify;
+        }
+        ul, ol {
+            font-size: 0.92rem;
+            margin-bottom: 10px;
+            padding-left: 20px;
+        }
+        li {
+            margin-bottom: 4px;
+        }
+        pre, code {
+            font-family: Consolas, "Courier New", monospace;
+            background: #f4f6f8;
+            color: #1a252f;
+            border-radius: 4px;
+        }
+        code {
+            padding: 2px 5px;
+            font-size: 0.88rem;
+        }
+        pre {
+            padding: 10px;
+            font-size: 0.82rem;
+            border: 1px solid #e1e4e8;
+            overflow-x: auto;
+            margin-bottom: 12px;
+        }
+        .print-btn {
+            display: inline-block;
+            background: #00d4aa;
+            color: #000;
+            font-weight: bold;
+            padding: 10px 18px;
+            border-radius: 6px;
+            text-decoration: none;
+            margin-bottom: 20px;
+            cursor: pointer;
+            border: none;
+        }
+        @media print {
+            .print-btn {
+                display: none;
+            }
+            body {
+                padding: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <button class="print-btn" onclick="window.print()">🖨️ Imprimir / Salvar como PDF</button>
+
+    <h1>RELATÓRIO TEÓRICO: DESENVOLVIMENTO DE APLICAÇÃO FRONT-END COM CONSUMO DE API</h1>
+    <div class="header-meta">
+        <strong>Disciplina:</strong> Desenvolvimento Web Front-End &bull; 
+        <strong>Tecnologias:</strong> HTML5, CSS3, JavaScript Puro (Vanilla) &bull; 
+        <strong>API:</strong> The Rick and Morty API
+    </div>
+
+    <h2>1. O que é uma API e como funciona o consumo de dados em tempo real</h2>
+    <p>
+        Uma <strong>API</strong> (<em>Application Programming Interface</em>) é uma interface que estabelece contratos, protocolos e ferramentas para a comunicação entre sistemas heterogêneos. Na web, o modelo predominante é a <strong>API RESTful</strong>, fundamentada no protocolo <strong>HTTP/HTTPS</strong>, transmitindo cargas de dados codificadas em formato <strong>JSON</strong> (<em>JavaScript Object Notation</em>).
+    </p>
+    <p>
+        O consumo em tempo real funciona por meio de um ciclo estruturado de comunicação assíncrona:
+    </p>
+    <ul>
+        <li><strong>Requisição (Request):</strong> O navegador emite uma requisição assíncrona (como o método <code>GET</code>) para uma URI específica do servidor.</li>
+        <li><strong>Processamento:</strong> O servidor processa os cabeçalhos, rotas e parâmetros informados (filtros por nome, status, espécie ou número de página) e gera o conjunto de resultados.</li>
+        <li><strong>Resposta (Response):</strong> O servidor retorna os dados acompanhados de código de status HTTP (ex.: 200 para sucesso ou 404 para dados inexistentes).</li>
+        <li><strong>Atualização Dinâmica do Cliente:</strong> O script JavaScript do cliente intercepta a resposta, processa a cadeia JSON e atualiza a interface visual sem necessidade de recarregamento total da página web (comportamento de Single Page Application).</li>
+    </ul>
+
+    <h2>2. Conceito de DOM Manipulation e a criação de elementos dinâmicos via JavaScript</h2>
+    <p>
+        O <strong>DOM</strong> (<em>Document Object Model</em>) é a representação orientada a objetos da árvore hierárquica do documento HTML. A <strong>manipulação do DOM</strong> consiste em utilizar o JavaScript para inspecionar, criar, injetar, modificar estilos e remover nós dessa árvore em tempo de execução.
+    </p>
+    <p>
+        A <strong>criação dinâmica de elementos</strong> diferencia interfaces estáticas das modernas aplicações ricas para a web. Ao invés de inserir marcações HTML rígidas no arquivo-fonte, a página mantém apenas nós de ancoragem (como <code>&lt;div id="cardsContainer"&gt;&lt;/div&gt;</code>). À medida que a resposta da API chega, o JavaScript instancia os elementos em memória na quantidade exata retornada pela fonte de dados, garantindo responsividade, escalabilidade e desacoplamento entre estrutura e dados.
+    </p>
+
+    <h2>3. Explicação das funções básicas utilizadas para consumo da API</h2>
+    <p>
+        O projeto utilizou exclusivamente os recursos nativos do padrão ECMAScript:
+    </p>
+    <ul>
+        <li>
+            <code>fetch(url)</code>: Método assíncrono que inicia o processo de requisição HTTP e retorna uma <em>Promise</em> que resolve no objeto <code>Response</code> assim que os cabeçalhos chegam.
+        </li>
+        <li>
+            <code>.then()</code>: Método encadeado que gerencia a resolução da <em>Promise</em>. O primeiro <code>.then()</code> invoca <code>response.json()</code> para converter o fluxo de dados em objetos JavaScript; o segundo recebe o JSON pronto e aciona a função de renderização.
+        </li>
+        <li>
+            <code>.catch()</code>: Captura falhas de rede, erros de resposta HTTP ou exceções internas de execução, acionando rotinas visuais de tratamento e recuperação (como telas de erro e botão de nova tentativa).
+        </li>
+        <li>
+            <code>document.createElement(tagName)</code>: Instancia um novo nó de elemento HTML em memória com a tag informada (ex.: <code>div</code>, <code>img</code>, <code>h3</code>, <code>span</code>).
+        </li>
+        <li>
+            <code>node.appendChild(childNode)</code>: Insere o nó filho na hierarquia do elemento pai, construindo a estrutura visual completa do card antes de adicioná-lo ao container da tela.
+        </li>
+    </ul>
+
+    <h2>4. Breve explicação sobre o motivo da escolha da API</h2>
+    <p>
+        A API escolhida foi a <strong>Rick and Morty API</strong> (<em>https://rickandmortyapi.com/</em>). Os principais critérios de escolha foram:
+    </p>
+    <ul>
+        <li><strong>Consonância com o Tema Proposto:</strong> Rick and Morty é uma das produções animadas mais icônicas e influentes dos anos 2000/2010, com forte apelo visual e narrativo.</li>
+        <li><strong>Gratuidade e Acessibilidade:</strong> Trata-se de uma API pública, estável e livre de taxas, permitindo testes sem fricção ou dependência de chaves pagas.</li>
+        <li><strong>Riqueza do Schema de Dados:</strong> Fornece atributos ideais para cartões detalhados: imagem de avatar oficial, nome, status vital, espécie, gênero, planeta de origem, localização atual e relação de episódios.</li>
+        <li><strong>Recursos de Consulta:</strong> Suporta filtros por atributos e sistema nativo de paginação com metadados detalhados de total de registros e páginas.</li>
+    </ul>
+
+    <h2>5. Regras de acesso e documentação da API utilizada</h2>
+    <ul>
+        <li><strong>Autenticação:</strong> Não exige tokens, bearer auth ou assinaturas criptográficas. Possui suporte completo a requisições CORS abertas.</li>
+        <li><strong>Limites de Requisição:</strong> O servidor adota política de uso justo (~10.000 requisições diárias por IP). No projeto, foi aplicado mecanismo de <em>debounce</em> no campo de pesquisa para otimizar o fluxo de requisições.</li>
+        <li><strong>Estrutura de Resposta:</strong> O endpoint <code>/api/character</code> retorna um objeto contendo a propriedade <code>info</code> (com <code>count</code>, <code>pages</code>, <code>next</code> e <code>prev</code>) e o vetor <code>results</code> com os 20 personagens da página solicitada.</li>
+    </ul>
+
+</body>
+</html>
